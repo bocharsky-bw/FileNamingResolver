@@ -17,7 +17,7 @@ class AggregateNamingStrategy extends AbstractNamingStrategy
     /**
      * @var NamingStrategyInterface[]
      */
-    protected $strategies = [];
+    protected $strategies = array();
 
     /**
      * @var bool

@@ -47,7 +47,7 @@ class HashNamingStrategy extends AbstractNamingStrategy
         $string = $this->generateUniqueString();
         $hash = hash($this->algorithm, $string);
 
-        $pathSuffixParts = [];
+        $pathSuffixParts = array();
         for ($i = 0; $i < $this->partCount; $i++) {
             $pathSuffixParts[] = substr($hash, $i * $this->partLength, $this->partLength);
         }
