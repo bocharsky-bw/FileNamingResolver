@@ -1,0 +1,17 @@
+{
+    "name": "bocharsky-bw/file-naming-resolver",
+    "description": "A lightweight library to resolve files or directories naming using various strategies.",
+    "keywords": ["file", "directory", "naming", "generator", "resolver", "utility", "helper"],
+    "homepage": "https://github.com/bocharsky-bw/FileNamingResolver",
+    "license": "MIT",
+    "autoload": { "psr-4": { "FileNamingResolver\\": "src" } },
+    "authors": [
+        { "name": "Victor Bocharsky", "email": "bocharsky.bw@gmail.com" }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    }
+}
