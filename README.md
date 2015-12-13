@@ -8,6 +8,7 @@ A lightweight library to resolve files or directories naming using various strat
   libraries.
 
 [![Build Status](https://travis-ci.org/bocharsky-bw/FileNamingResolver.svg?branch=master)](https://travis-ci.org/bocharsky-bw/FileNamingResolver)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8/mini.png)](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8)
 
 ## Contents
 
