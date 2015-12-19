@@ -13,19 +13,19 @@ class FileInfo extends \SplFileInfo
     const SEPARATOR_EXTENSION = '.';
 
     /**
-     * Returns file name without extension.
+     * Returns base name of file without extension (or base name of directory).
      *
      * @return string
      */
-    public function getBasenameWithoutExtension()
+    public function getBasename()
     {
         $suffix = static::SEPARATOR_EXTENSION.$this->getExtension();
 
-        return $this->getBasename($suffix);
+        return parent::getBasename($suffix);
     }
 
     /**
-     * Checks whether a file or directory exists.
+     * Checks whether a file / directory exists.
      *
      * @return bool
      */
@@ -35,20 +35,20 @@ class FileInfo extends \SplFileInfo
     }
 
     /**
-     * Creates full pathname to the file based on its path, basename and extension
+     * Creates full pathname to the file / directory based on its path, basename and extension
      *
-     * @param string $path
-     * @param string $basenameWithoutExtension
-     * @param string $extension
+     * @param string $path Directory path to the file (or directory)
+     * @param string $basename Base name of file without extension (or base name of directory)
+     * @param string $extension [OPTIONAL] File extension (empty for directory)
      *
      * @return string
      */
-    public static function createPathname($path, $basenameWithoutExtension, $extension = '')
+    public static function createPathname($path, $basename, $extension = '')
     {
         $pathname = ''
             .static::purifyPath($path)
             .static::SEPARATOR_DIRECTORY
-            .static::purifyBasename($basenameWithoutExtension)
+            .static::purifyBasename($basename)
         ;
         if ($extension) {
             $pathname .= ''
@@ -103,7 +103,7 @@ class FileInfo extends \SplFileInfo
     }
 
     /**
-     * Changes directory path to the file
+     * Changes directory path to the file / directory.
      *
      * @param string $path
      *
@@ -111,27 +111,27 @@ class FileInfo extends \SplFileInfo
      */
     public function changePath($path)
     {
-        $filename = $this->createPathname($path, $this->getBasenameWithoutExtension(), $this->getExtension());
+        $pathname = $this->createPathname($path, $this->getBasename(), $this->getExtension());
 
-        return new static($filename);
+        return new static($pathname);
     }
 
     /**
-     * Changes base name without extension
+     * Changes base name of file without extension (or base name of directory).
      *
-     * @param string $basenameWithoutExtension
+     * @param string $basename
      *
      * @return static
      */
-    public function changeBasenameWithoutExtension($basenameWithoutExtension)
+    public function changeBasename($basename)
     {
-        $filename = $this->createPathname($this->getPath(), $basenameWithoutExtension, $this->getExtension());
+        $pathname = $this->createPathname($this->getPath(), $basename, $this->getExtension());
 
-        return new static($filename);
+        return new static($pathname);
     }
 
     /**
-     * Changes file extension
+     * Changes file extension.
      *
      * @param string $extension
      *
@@ -139,9 +139,9 @@ class FileInfo extends \SplFileInfo
      */
     public function changeExtension($extension)
     {
-        $filename = $this->createPathname($this->getPath(), $this->getBasenameWithoutExtension(), $extension);
+        $pathname = $this->createPathname($this->getPath(), $this->getBasename(), $extension);
 
-        return new static($filename);
+        return new static($pathname);
     }
 
     /**
