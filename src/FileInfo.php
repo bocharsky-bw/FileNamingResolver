@@ -149,6 +149,42 @@ class FileInfo extends \SplFileInfo
     }
 
     /**
+     * @param string $basePath
+     *
+     * @return string
+     */
+    public function getPathRelativeTo($basePath)
+    {
+        $basePath = $this->purifyPath($basePath).static::SEPARATOR_DIRECTORY;
+
+        $relativePath = $this->getPath();
+        $prefix = mb_substr($relativePath, 0, mb_strlen($basePath));
+        if ($prefix === $basePath) {
+            $relativePath = mb_substr($relativePath, mb_strlen($prefix));
+        }
+
+        return $relativePath;
+    }
+
+    /**
+     * @param string $basePathname
+     *
+     * @return string
+     */
+    public function getPathnameRelativeTo($basePathname)
+    {
+        $basePathname = $this->purifyPath($basePathname).static::SEPARATOR_DIRECTORY;
+
+        $relativePathname = $this->getPathname();
+        $prefix = mb_substr($relativePathname, 0, mb_strlen($basePathname));
+        if ($prefix === $basePathname) {
+            $relativePathname = mb_substr($relativePathname, mb_strlen($prefix));
+        }
+
+        return $relativePathname;
+    }
+
+    /**
      * Converts object to a string representation.
      *
      * @return string
