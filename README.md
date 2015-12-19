@@ -133,8 +133,8 @@ $callbackStrategy = new CallbackNamingStrategy(function (FileInfo $srcFileInfo) 
     $dstFileInfo = $srcFileInfo
         // Add 'products' suffix to the path
         ->changePath($srcFileInfo->getPath().FileInfo::SEPARATOR_DIRECTORY.'products')
-        // Generate custom basename
-        ->changeBasename(time().'-'.uniqid()) // comment this line to keep original basename
+        // Generate custom basename without extension
+        ->changeBasenameWithoutExtension(time().'-'.uniqid()) // comment this line to keep original basename
         // or do whatever custom naming logic you want here...
     ;
 
