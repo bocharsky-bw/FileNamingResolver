@@ -43,15 +43,21 @@ class FileInfo extends \SplFileInfo
      *
      * @return string
      */
-    public static function createPathname($path, $basenameWithoutExtension, $extension)
+    public static function createPathname($path, $basenameWithoutExtension, $extension = '')
     {
-        return ''
+        $pathname = ''
             .static::purifyPath($path)
             .static::SEPARATOR_DIRECTORY
             .static::purifyBasename($basenameWithoutExtension)
-            .static::SEPARATOR_EXTENSION
-            .static::purifyExtension($extension)
         ;
+        if ($extension) {
+            $pathname .= ''
+                .static::SEPARATOR_EXTENSION
+                .static::purifyExtension($extension)
+            ;
+        }
+
+        return $pathname;
     }
 
     /**
