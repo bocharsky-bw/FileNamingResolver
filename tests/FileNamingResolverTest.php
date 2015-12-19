@@ -4,8 +4,7 @@ namespace Tests\FileNamingResolver;
 
 use FileNamingResolver\FileInfo;
 use FileNamingResolver\FileNamingResolver;
-use FileNamingResolver\NamingStrategy\DatetimeNamingStrategy;
-use FileNamingResolver\NamingStrategy\HashNamingStrategy;
+use FileNamingResolver\NamingStrategy\NamingStrategyInterface;
 
 /**
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
@@ -14,25 +13,51 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetGetNamingStrategy()
     {
-        $hashStrategy = new HashNamingStrategy();
-        $datetimeStrategy = new DatetimeNamingStrategy();
+        $mockedStrategy = $this->createMockedStrategy();
+        $resolver = new FileNamingResolver($mockedStrategy);
+        $this->assertSame($mockedStrategy, $resolver->getNamingStrategy());
 
-        $resolver = new FileNamingResolver($hashStrategy);
-        $this->assertSame($hashStrategy, $resolver->getNamingStrategy());
-
-        $resolver->setNamingStrategy($datetimeStrategy);
-        $this->assertSame($datetimeStrategy, $resolver->getNamingStrategy());
+        $anotherMockedStrategy = $this->createMockedStrategy();
+        $resolver->setNamingStrategy($anotherMockedStrategy);
+        $this->assertSame($anotherMockedStrategy, $resolver->getNamingStrategy());
     }
 
     public function testResolveName()
     {
-        $fileInfo = new FileInfo(__FILE__);
-        $hashStrategy = new HashNamingStrategy();
-        $resolver = new FileNamingResolver($hashStrategy);
-        $filename = $resolver->resolveName($fileInfo);
+        $mockedFileInfo = $this->createMockedFileInfo();
+        $mockedStrategy = $this->createMockedStrategy();
+        $mockedStrategy
+            ->expects($this->once())
+            ->method('provideName')
+            ->with($mockedFileInfo)
+            ->willReturn(__FILE__)
+        ;
+        $resolver = new FileNamingResolver($mockedStrategy);
+        $pathname = $resolver->resolveName($mockedFileInfo);
 
-        $this->assertInternalType('string', $filename);
-        $this->assertStringStartsWith($fileInfo->getPath(), $filename);
-        $this->assertStringEndsWith($fileInfo->getExtension(), $filename);
+        $this->assertInternalType('string', $pathname);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|NamingStrategyInterface
+     */
+    private function createMockedStrategy()
+    {
+        return $this
+            ->getMockBuilder('FileNamingResolver\NamingStrategy\NamingStrategyInterface')
+            ->getMock()
+        ;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|FileInfo
+     */
+    private function createMockedFileInfo()
+    {
+        return $this
+            ->getMockBuilder('FileNamingResolver\FileInfo')
+            ->setConstructorArgs(array(__FILE__))
+            ->getMock()
+        ;
     }
 }
