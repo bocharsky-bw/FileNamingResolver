@@ -54,7 +54,7 @@ class HashNamingStrategy extends AbstractNamingStrategy
         $name = substr($hash, $i * $this->partLength);
         $pathSuffix = implode(FileInfo::SEPARATOR_DIRECTORY, $pathSuffixParts);
         $dstFileInfo = $srcFileInfo
-            ->changeBasename($name)
+            ->changeBasenameWithoutExtension($name)
             ->changePath($srcFileInfo->getPath().FileInfo::SEPARATOR_DIRECTORY.$pathSuffix)
         ;
 

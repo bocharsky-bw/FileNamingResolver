@@ -49,7 +49,7 @@ class DatetimeNamingStrategy extends AbstractNamingStrategy
         $pathSuffix = FileInfo::purifyPath($datetime->format($this->dirFormat));
         $dstFileInfo = $srcFileInfo
             ->changePath($srcFileInfo->getPath().FileInfo::SEPARATOR_DIRECTORY.$pathSuffix)
-            ->changeBasename($datetime->format($this->fileFormat))
+            ->changeBasenameWithoutExtension($datetime->format($this->fileFormat))
         ;
 
         return $dstFileInfo->toString();

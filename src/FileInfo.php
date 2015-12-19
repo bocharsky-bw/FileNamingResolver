@@ -15,23 +15,18 @@ class FileInfo extends \SplFileInfo
     /**
      * Returns file name without extension.
      *
-     * @param string $suffix
-     *
      * @return string
      */
-    public function getBasename($suffix = null)
+    public function getBasenameWithoutExtension()
     {
-        $suffix = (string)$suffix;
-        if ('' === $suffix) {
-            // trim current extension from the end of this file name
-            $suffix = static::SEPARATOR_EXTENSION.$this->getExtension();
-        }
+        $suffix = static::SEPARATOR_EXTENSION.$this->getExtension();
 
-        return parent::getBasename($suffix);
+        return $this->getBasename($suffix);
     }
 
     /**
      * Checks whether a file or directory exists.
+     *
      * @return bool
      */
     public function isExists()
@@ -43,22 +38,27 @@ class FileInfo extends \SplFileInfo
      * Creates full pathname to the file based on its path, basename and extension
      *
      * @param string $path
-     * @param string $basename
+     * @param string $basenameWithoutExtension
      * @param string $extension
      *
      * @return string
      */
-    public static function createPathname($path, $basename, $extension)
+    public static function createPathname($path, $basenameWithoutExtension, $extension)
     {
         return ''
             .static::purifyPath($path)
             .static::SEPARATOR_DIRECTORY
-            .static::purifyBasename($basename)
+            .static::purifyBasename($basenameWithoutExtension)
             .static::SEPARATOR_EXTENSION
             .static::purifyExtension($extension)
         ;
     }
 
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
     public static function purifyPath($path)
     {
         $path = (string)$path;
@@ -68,6 +68,11 @@ class FileInfo extends \SplFileInfo
         return $path;
     }
 
+    /**
+     * @param string $basename
+     *
+     * @return string
+     */
     public static function purifyBasename($basename)
     {
         $basename = (string)$basename;
@@ -77,6 +82,11 @@ class FileInfo extends \SplFileInfo
         return $basename;
     }
 
+    /**
+     * @param string $extension
+     *
+     * @return string
+     */
     public static function purifyExtension($extension)
     {
         $extension = (string)$extension;
@@ -95,21 +105,21 @@ class FileInfo extends \SplFileInfo
      */
     public function changePath($path)
     {
-        $filename = $this->createPathname($path, $this->getBasename(), $this->getExtension());
+        $filename = $this->createPathname($path, $this->getBasenameWithoutExtension(), $this->getExtension());
 
         return new static($filename);
     }
 
     /**
-     * Changes file name
+     * Changes base name without extension
      *
-     * @param string $basename
+     * @param string $basenameWithoutExtension
      *
      * @return static
      */
-    public function changeBasename($basename)
+    public function changeBasenameWithoutExtension($basenameWithoutExtension)
     {
-        $filename = $this->createPathname($this->getPath(), $basename, $this->getExtension());
+        $filename = $this->createPathname($this->getPath(), $basenameWithoutExtension, $this->getExtension());
 
         return new static($filename);
     }
@@ -123,7 +133,7 @@ class FileInfo extends \SplFileInfo
      */
     public function changeExtension($extension)
     {
-        $filename = $this->createPathname($this->getPath(), $this->getBasename(), $extension);
+        $filename = $this->createPathname($this->getPath(), $this->getBasenameWithoutExtension(), $extension);
 
         return new static($filename);
     }
