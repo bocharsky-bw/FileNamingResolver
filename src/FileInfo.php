@@ -15,13 +15,17 @@ class FileInfo extends \SplFileInfo
     /**
      * Returns base name of file without extension (or base name of directory).
      *
+     * @param string $suffix
+     *
      * @return string
      */
-    public function getBasename()
+    public function getBasename($suffix = null)
     {
-        $suffix = static::SEPARATOR_EXTENSION.$this->getExtension();
+        if (null === $suffix) {
+            $suffix = static::SEPARATOR_EXTENSION.$this->getExtension();
+        }
 
-        return parent::getBasename($suffix);
+        return parent::getBasename((string)$suffix);
     }
 
     /**
