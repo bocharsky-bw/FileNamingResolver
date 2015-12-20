@@ -12,14 +12,14 @@ class CallbackNamingStrategy extends AbstractNamingStrategy
     /**
      * @var callable
      */
-    protected $func;
+    protected $callback;
 
     /**
-     * @param callable $func
+     * @param callable $callback
      */
-    public function __construct(callable $func)
+    public function __construct(callable $callback)
     {
-        $this->func = $func;
+        $this->callback = $callback;
     }
 
     /**
@@ -27,7 +27,7 @@ class CallbackNamingStrategy extends AbstractNamingStrategy
      */
     public function provideName(FileInfo $srcFileInfo)
     {
-        $func = $this->func;
+        $func = $this->callback;
 
         return (string)$func($srcFileInfo);
     }
@@ -35,8 +35,8 @@ class CallbackNamingStrategy extends AbstractNamingStrategy
     /**
      * @return callable
      */
-    public function getFunc()
+    public function getCallback()
     {
-        return $this->func;
+        return $this->callback;
     }
 }

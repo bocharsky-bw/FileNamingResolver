@@ -97,16 +97,16 @@ class FileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPathRelativeTo()
     {
-        $fileInfo = new FileInfo('/var/www/web/uploads/image.jpg');
+        $fileInfo = new FileInfo('/var/www/web/uploads/products/image.jpg');
 
-        $this->assertEquals('uploads', $fileInfo->getPathRelativeTo('/var/www/web'));
+        $this->assertEquals('uploads/products', $fileInfo->getPathRelativeTo('/var/www/web'));
     }
 
     public function testGetPathnameRelativeTo()
     {
-        $fileInfo = new FileInfo('/var/www/web/uploads/image.jpg');
+        $fileInfo = new FileInfo('/var/www/web/uploads/products/image.jpg');
 
-        $this->assertEquals('uploads/image.jpg', $fileInfo->getPathnameRelativeTo('/var/www/web'));
+        $this->assertEquals('uploads/products/image.jpg', $fileInfo->getPathnameRelativeTo('/var/www/web'));
     }
 
     public function testToString()
