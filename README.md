@@ -15,6 +15,7 @@ A lightweight library to resolve files or directories naming using various strat
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
+* [FileInfo](#fileinfo)
 * [Strategy list](#strategy-list)
     * [AggregateNamingStrategy](#aggregatenamingstrategy)
     * [CallbackNamingStrategy](#callbacknamingstrategy)
@@ -74,6 +75,23 @@ echo $filename; // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.
 ```
 
 > **NOTE:** In all examples hereinafter the `__DIR__` equals to `/var/www/html/web`.
+
+## FileInfo
+
+The `FileNamingResolver\FileInfo` class extends `\SplFileInfo` object. For more info
+check the [SplFileInfo][10]. Below shown list of frequently used getters of this class:
+
+```php
+$fileInfo = new FileInfo('/var/www/html/web/uploads/products/image.jpg');
+
+echo $fileInfo->getPathname();  // '/var/www/html/web/uploads/products/image.jpg'
+echo $fileInfo->getPath();      // '/var/www/html/web/uploads/products'
+echo $fileInfo->getFilename();  // 'image.jpg'
+echo $fileInfo->getBasename();  // 'image'
+echo $fileInfo->getExtension(); // 'jpg'
+echo $fileInfo->getPathRelativeTo('/var/www/html/web');     // 'uploads/products'
+echo $fileInfo->getPathnameRelativeTo('/var/www/html/web'); // 'uploads/products/image.jpg'
+```
 
 ## Strategy list
 
@@ -217,3 +235,4 @@ and discuss it first.
 [7]: https://github.com/thephpleague/flysystem
 [8]: https://github.com/twigphp/Twig
 [9]: https://github.com/wordpress/wordpress
+[10]: http://php.net/manual/en/class.splfileinfo.php
