@@ -10,14 +10,14 @@ use FileNamingResolver\FileInfo;
 class CallbackNamingStrategy extends AbstractNamingStrategy
 {
     /**
-     * @var callable
+     * @var \Closure
      */
     protected $callback;
 
     /**
-     * @param callable $callback
+     * @param \Closure $callback
      */
-    public function __construct(callable $callback)
+    public function __construct(\Closure $callback)
     {
         $this->callback = $callback;
     }
@@ -33,7 +33,7 @@ class CallbackNamingStrategy extends AbstractNamingStrategy
     }
 
     /**
-     * @return callable
+     * @return \Closure
      */
     public function getCallback()
     {
