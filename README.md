@@ -60,7 +60,9 @@ use FileNamingResolver\FileInfo;
 use FileNamingResolver\FileNamingResolver;
 use FileNamingResolver\NamingStrategy\HashNamingStrategy;
 
-// Create source file info object from full filename
+// First of all, upload new file or use any uploaded file on the your server
+
+// Create source FileInfo object from FQFN of uploaded file
 $srcFileInfo = new FileInfo(__DIR__.'/uploads/image.jpg');
 
 // Create at least one naming strategy object
@@ -70,8 +72,11 @@ $hashStrategy = new HashNamingStrategy();
 $resolver = new FileNamingResolver($hashStrategy);
 
 // Resolve new name using specified naming strategy
-$filename = $resolver->resolveName($srcFileInfo);
-echo $filename; // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.jpg
+$pathname = $resolver->resolveName($srcFileInfo);
+echo $pathname; // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.jpg
+
+// Use rename() / move_uploaded_file() built-in functions, Gaufrette or any other filesystem
+// abstraction library to move uploaded file to the directory accroding to suggested pathname.
 ```
 
 > **NOTE:** In all examples hereinafter the `__DIR__` equals to `/var/www/html/web`.
@@ -98,7 +103,7 @@ echo $fileInfo->getPathnameRelativeTo('/var/www/html/web'); // 'uploads/products
 ### AggregateNamingStrategy
 
 This naming strategy allows to use as many naming strategies as you need at once.
-Its aggregate results. Each new result filename based on the previous one.
+Its aggregate results. Each new result pathname based on the previous one.
 
 ```php
 use FileNamingResolver\FileInfo;
@@ -120,8 +125,8 @@ $strategies = [
 $aggregateStrategy = new AggregateNamingStrategy($strategies);
 
 $resolver = new FileNamingResolver($aggregateStrategy);
-$filename = $resolver->resolveName($srcFileInfo);
-echo $filename; // /var/www/html/web/uploads/2015/12/9c/98/87cbf44f53c9f6fa08f44ce705c8.jpg
+$pathname = $resolver->resolveName($srcFileInfo);
+echo $pathname; // /var/www/html/web/uploads/2015/12/9c/98/87cbf44f53c9f6fa08f44ce705c8.jpg
 ```
 
 To reverse applying order of strategies pass `true` as second parameter to the
@@ -131,8 +136,8 @@ constructor of `AggregateNamingStrategy` class:
 $aggregateStrategy = new AggregateNamingStrategy($strategies, AggregateNamingStrategy::MODE_REVERSE);
 
 $resolver = new FileNamingResolver($aggregateStrategy);
-$filename = $resolver->resolveName($srcFileInfo);
-echo $filename; // /var/www/html/web/uploads/a0/cb/2015/12/11-23-35-039900.jpg
+$pathname = $resolver->resolveName($srcFileInfo);
+echo $pathname; // /var/www/html/web/uploads/a0/cb/2015/12/11-23-35-039900.jpg
 ```
 
 ### CallbackNamingStrategy
@@ -160,8 +165,8 @@ $callbackStrategy = new CallbackNamingStrategy(function (FileInfo $srcFileInfo) 
 });
 
 $resolver = new FileNamingResolver($callbackStrategy);
-$filename = $resolver->resolveName($srcFileInfo);
-echo $filename; // /var/www/html/web/uploads/products/1450004778-566d512a32d2c.jpg
+$pathname = $resolver->resolveName($srcFileInfo);
+echo $pathname; // /var/www/html/web/uploads/products/1450004778-566d512a32d2c.jpg
 ```
 
 ### DatetimeNamingStrategy
@@ -185,8 +190,8 @@ $datetimeStrategy = new DatetimeNamingStrategy(
 );
 
 $resolver = new FileNamingResolver($datetimeStrategy);
-$filename = $resolver->resolveName($srcFileInfo);
-echo $filename; // /var/www/html/web/uploads/2015/12/13/1450004392-907500.jpg
+$pathname = $resolver->resolveName($srcFileInfo);
+echo $pathname; // /var/www/html/web/uploads/2015/12/13/1450004392-907500.jpg
 ```
 
 ### HashNamingStrategy
@@ -211,8 +216,8 @@ $hashStrategy = new HashNamingStrategy(
 );
 
 $resolver = new FileNamingResolver($hashStrategy);
-$filename = $resolver->resolveName($srcFileInfo);
-echo $filename; // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
+$pathname = $resolver->resolveName($srcFileInfo);
+echo $pathname; // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
 ```
 
 ## Contribution
