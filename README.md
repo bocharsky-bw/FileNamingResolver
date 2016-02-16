@@ -90,6 +90,7 @@ check the [SplFileInfo][10]. Below shown list of frequently used getters of this
 ```php
 $fileInfo = new FileInfo('/var/www/html/web/uploads/products/image.jpg');
 
+echo $fileInfo->toString();     // '/var/www/html/web/uploads/products/image.jpg'
 echo $fileInfo->getPathname();  // '/var/www/html/web/uploads/products/image.jpg'
 echo $fileInfo->getPath();      // '/var/www/html/web/uploads/products'
 echo $fileInfo->getFilename();  // 'image.jpg'
