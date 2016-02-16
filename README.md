@@ -77,7 +77,7 @@ $dstFileInfo = $resolver->resolveName($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.jpg
 
 // Use rename() / move_uploaded_file() built-in functions, Gaufrette or any other filesystem
-// abstraction library to move uploaded file to the directory accroding to suggested pathname.
+// abstraction library to move uploaded file to the directory according to suggested pathname.
 ```
 
 > **NOTE:** In all examples hereinafter the `__DIR__` equals to `/var/www/html/web`.
@@ -163,7 +163,7 @@ $callbackStrategy = new CallbackNamingStrategy(function (FileInfo $srcFileInfo) 
         // or do whatever custom naming logic you want here...
     ;
 
-    return $dstFileInfo->toString();
+    return $dstFileInfo;
 });
 
 $resolver = new FileNamingResolver($callbackStrategy);
