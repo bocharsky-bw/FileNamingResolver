@@ -59,7 +59,7 @@ class AggregateNamingStrategy extends AbstractNamingStrategy
             $dstFileInfo = new FileInfo($filename);
         }
 
-        return $dstFileInfo->toString();
+        return $dstFileInfo;
     }
 
     /**

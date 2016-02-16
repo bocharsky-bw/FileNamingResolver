@@ -23,16 +23,25 @@ class FileNamingResolver
     }
 
     /**
-     * @param FileInfo $srcFileInfo
-     * @return string
+     * @param FileInfo $srcFileInfo The source FileInfo
+     *
+     * @return FileInfo The destination FileInfo
      */
     public function resolveName(FileInfo $srcFileInfo)
     {
-        return (string)$this->namingStrategy->provideName($srcFileInfo);
+        $dstFileInfo = $this->namingStrategy->provideName($srcFileInfo);
+        if (!$dstFileInfo instanceof FileInfo) {
+            throw new \RuntimeException(
+                sprintf('Selected naming strategy should return an instance of FileNamingResolver\FileInfo class')
+            );
+        }
+
+        return $dstFileInfo;
     }
 
     /**
      * @param NamingStrategyInterface $namingStrategy
+     *
      * @return $this
      */
     public function setNamingStrategy(NamingStrategyInterface $namingStrategy)

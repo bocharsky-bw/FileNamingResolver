@@ -10,9 +10,9 @@ use FileNamingResolver\FileInfo;
 interface NamingStrategyInterface
 {
     /**
-     * @param FileInfo $srcFileInfo
+     * @param FileInfo $srcFileInfo The source FileInfo
      *
-     * @return string
+     * @return FileInfo The destination FileInfo
      */
     public function provideName(FileInfo $srcFileInfo);
 }

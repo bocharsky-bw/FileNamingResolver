@@ -58,7 +58,7 @@ class HashNamingStrategy extends AbstractNamingStrategy
             ->changePath($srcFileInfo->getPath().FileInfo::SEPARATOR_DIRECTORY.$pathSuffix)
         ;
 
-        return $dstFileInfo->toString();
+        return $dstFileInfo;
     }
 
     /**

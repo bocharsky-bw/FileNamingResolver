@@ -52,7 +52,7 @@ class DatetimeNamingStrategy extends AbstractNamingStrategy
             ->changeBasename($datetime->format($this->fileFormat))
         ;
 
-        return $dstFileInfo->toString();
+        return $dstFileInfo;
     }
 
     /**

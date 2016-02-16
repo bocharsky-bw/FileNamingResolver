@@ -29,7 +29,14 @@ class CallbackNamingStrategy extends AbstractNamingStrategy
     {
         $func = $this->callback;
 
-        return (string)$func($srcFileInfo);
+        $dstFileInfo = $func($srcFileInfo);
+        if (!$dstFileInfo instanceof FileInfo) {
+            throw new \RuntimeException(
+                sprintf('Callback naming strategy should return an instance of FileNamingResolver\FileInfo class')
+            );
+        }
+
+        return $dstFileInfo;
     }
 
     /**
