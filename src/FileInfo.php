@@ -111,7 +111,7 @@ class FileInfo extends \SplFileInfo
      *
      * @param string $path
      *
-     * @return static
+     * @return FileInfo
      */
     public function changePath($path)
     {
@@ -125,7 +125,7 @@ class FileInfo extends \SplFileInfo
      *
      * @param string $basename
      *
-     * @return static
+     * @return FileInfo
      */
     public function changeBasename($basename)
     {
@@ -139,7 +139,7 @@ class FileInfo extends \SplFileInfo
      *
      * @param string $extension
      *
-     * @return static
+     * @return FileInfo
      */
     public function changeExtension($extension)
     {
