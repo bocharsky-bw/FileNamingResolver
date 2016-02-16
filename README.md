@@ -72,8 +72,8 @@ $hashStrategy = new HashNamingStrategy();
 $resolver = new FileNamingResolver($hashStrategy);
 
 // Resolve new name using specified naming strategy
-$pathname = $resolver->resolveName($srcFileInfo);
-echo $pathname; // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.jpg
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.jpg
 
 // Use rename() / move_uploaded_file() built-in functions, Gaufrette or any other filesystem
 // abstraction library to move uploaded file to the directory accroding to suggested pathname.
@@ -125,8 +125,8 @@ $strategies = [
 $aggregateStrategy = new AggregateNamingStrategy($strategies);
 
 $resolver = new FileNamingResolver($aggregateStrategy);
-$pathname = $resolver->resolveName($srcFileInfo);
-echo $pathname; // /var/www/html/web/uploads/2015/12/9c/98/87cbf44f53c9f6fa08f44ce705c8.jpg
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/2015/12/9c/98/87cbf44f53c9f6fa08f44ce705c8.jpg
 ```
 
 To reverse applying order of strategies pass `true` as second parameter to the
@@ -136,8 +136,8 @@ constructor of `AggregateNamingStrategy` class:
 $aggregateStrategy = new AggregateNamingStrategy($strategies, AggregateNamingStrategy::MODE_REVERSE);
 
 $resolver = new FileNamingResolver($aggregateStrategy);
-$pathname = $resolver->resolveName($srcFileInfo);
-echo $pathname; // /var/www/html/web/uploads/a0/cb/2015/12/11-23-35-039900.jpg
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/a0/cb/2015/12/11-23-35-039900.jpg
 ```
 
 ### CallbackNamingStrategy
@@ -165,8 +165,8 @@ $callbackStrategy = new CallbackNamingStrategy(function (FileInfo $srcFileInfo) 
 });
 
 $resolver = new FileNamingResolver($callbackStrategy);
-$pathname = $resolver->resolveName($srcFileInfo);
-echo $pathname; // /var/www/html/web/uploads/products/1450004778-566d512a32d2c.jpg
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/products/1450004778-566d512a32d2c.jpg
 ```
 
 ### DatetimeNamingStrategy
@@ -190,8 +190,8 @@ $datetimeStrategy = new DatetimeNamingStrategy(
 );
 
 $resolver = new FileNamingResolver($datetimeStrategy);
-$pathname = $resolver->resolveName($srcFileInfo);
-echo $pathname; // /var/www/html/web/uploads/2015/12/13/1450004392-907500.jpg
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/2015/12/13/1450004392-907500.jpg
 ```
 
 ### HashNamingStrategy
@@ -216,8 +216,8 @@ $hashStrategy = new HashNamingStrategy(
 );
 
 $resolver = new FileNamingResolver($hashStrategy);
-$pathname = $resolver->resolveName($srcFileInfo);
-echo $pathname; // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
 ```
 
 ## Contribution
