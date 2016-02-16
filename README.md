@@ -1,6 +1,7 @@
 # FileNamingResolver
 
-A lightweight library to resolve files or directories naming using various strategies.
+A lightweight library which helps to resolve a file/directory naming of uploaded files
+using various naming strategies.
 
 > This library solves only naming things and do *nothing* with any files or
   directories directly. If you are looking for some filesystem abstraction
