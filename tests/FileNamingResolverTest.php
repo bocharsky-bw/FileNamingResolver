@@ -30,12 +30,12 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('provideName')
             ->with($mockedFileInfo)
-            ->willReturn(__FILE__)
+            ->willReturn(new FileInfo(__FILE__))
         ;
         $resolver = new FileNamingResolver($mockedStrategy);
-        $pathname = $resolver->resolveName($mockedFileInfo);
+        $dstFileInfo = $resolver->resolveName($mockedFileInfo);
 
-        $this->assertInternalType('string', $pathname);
+        $this->assertInstanceOf('FileNamingResolver\FileInfo', $dstFileInfo);
     }
 
     /**

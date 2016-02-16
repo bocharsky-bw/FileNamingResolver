@@ -14,11 +14,11 @@ class HashNamingStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $srcFileInfo = new FileInfo(__FILE__);
         $strategy = new HashNamingStrategy();
-        $pathname = $strategy->provideName($srcFileInfo);
+        $dstFileInfo = $strategy->provideName($srcFileInfo);
 
-        $this->assertInternalType('string', $pathname);
-        $this->assertStringStartsWith($srcFileInfo->getPath(), $pathname);
-        $this->assertStringEndsNotWith($srcFileInfo->getFilename(), $pathname);
+        $this->assertInstanceOf('FileNamingResolver\FileInfo', $dstFileInfo);
+        $this->assertStringStartsWith($srcFileInfo->getPath(), $dstFileInfo->toString());
+        $this->assertStringEndsNotWith($srcFileInfo->getFilename(), $dstFileInfo->toString());
     }
 
     public function testGetAlgorithm()
