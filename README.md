@@ -19,6 +19,7 @@ A lightweight library to resolve files or directories naming using various strat
 * [Strategy list](#strategy-list)
     * [AggregateNamingStrategy](#aggregatenamingstrategy)
     * [CallbackNamingStrategy](#callbacknamingstrategy)
+    * [ContentHashNamingStrategy](#contenthashnamingstrategy)
     * [DatetimeNamingStrategy](#datetimenamingstrategy)
     * [HashNamingStrategy](#hashnamingstrategy)
 * [Contribution](#contribution)
@@ -168,6 +169,37 @@ $resolver = new FileNamingResolver($callbackStrategy);
 $dstFileInfo = $resolver->resolveName($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/products/1450004778-566d512a32d2c.jpg
 ```
+
+### ContentHashNamingStrategy
+
+The naming behavior of hash naming strategy looks like [Twig][8] naming of cached files.
+
+```php
+use FileNamingResolver\FileInfo;
+use FileNamingResolver\FileNamingResolver;
+use FileNamingResolver\NamingStrategy\ContentHashNamingStrategy;
+
+$srcFileInfo = new FileInfo(__DIR__.'/uploads/image.jpg');
+
+// Create a hash naming strategy object
+$contentHashStrategy = new ContentHashNamingStrategy(
+    // Hashing algorithm, by default: 'md5'
+    ContentHashNamingStrategy::ALGORITHM_SHA1, // 'sha1'
+    // Count of parts for explode, by default: 2
+    3,
+    // Length of each exploded part, by default: 2
+    3
+);
+
+$resolver = new FileNamingResolver($contentHashStrategy);
+$dstFileInfo = $resolver->resolveName($srcFileInfo);
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
+```
+
+> **NOTE:** Be sure that source file *really* exist before using `ContentHashNamingStrategy`
+  otherwise an `InvalidArgumentException` will be thrown. You probably need to use a `isFile()`
+  method on `FileInfo` object to be sure that file exists. It's necessary because this naming
+  strategy try to hash a *real* file content.
 
 ### DatetimeNamingStrategy
 
