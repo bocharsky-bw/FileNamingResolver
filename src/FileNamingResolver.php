@@ -26,6 +26,8 @@ class FileNamingResolver
      * @param FileInfo $srcFileInfo The source FileInfo
      *
      * @return FileInfo The destination FileInfo
+     *
+     * @throws \RuntimeException If specified naming strategy returns not FileNamingResolver\FileInfo instance
      */
     public function resolveName(FileInfo $srcFileInfo)
     {
