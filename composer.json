@@ -1,7 +1,7 @@
 {
     "name": "bocharsky-bw/file-naming-resolver",
-    "description": "A lightweight library to resolve files or directories naming using various strategies.",
-    "keywords": ["file", "directory", "naming", "generator", "resolver", "utility", "helper"],
+    "description": "A lightweight library which helps to resolve a file/directory naming of uploaded files using various naming strategies.",
+    "keywords": ["uploaded file", "directory", "namer", "naming", "generator", "resolver", "utility", "helper"],
     "homepage": "https://github.com/bocharsky-bw/FileNamingResolver",
     "license": "MIT",
     "autoload": { "psr-4": { "FileNamingResolver\\": "src" } },
