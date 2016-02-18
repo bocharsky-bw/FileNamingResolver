@@ -8,8 +8,11 @@ using various naming strategies.
   layer - looks closer to [Gaufrette][5], [symfony/filesystem][6] or [Flysystem][7]
   libraries.
 
-[![Build Status](https://travis-ci.org/bocharsky-bw/FileNamingResolver.svg?branch=master)](https://travis-ci.org/bocharsky-bw/FileNamingResolver)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8/mini.png)](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8)
+[![Travis Branch](https://img.shields.io/travis/rust-lang/rust/master.svg?style=flat-square)](https://travis-ci.org/bocharsky-bw/FileNamingResolver)
+[![Software License](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](https://github.com/bocharsky-bw/FileNamingResolver/blob/master/LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/bocharsky-bw/file-naming-resolver.svg?style=flat-square)](https://packagist.org/packages/bocharsky-bw/file-naming-resolver)
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8/big.png)](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8)
 
 ## Contents
 
