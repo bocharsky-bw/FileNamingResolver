@@ -25,6 +25,16 @@ class ContentHashNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($dstFileInfo->toString(), $dstFileInfo2->toString());
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testProvideNameException()
+    {
+        $strategy = new ContentHashNamingStrategy();
+        $srcFileInfo = new FileInfo(__DIR__); // Specify not valid FQFN of source file (directory is NOT file)
+        $strategy->provideName($srcFileInfo);
+    }
+
     public function testGetAlgorithm()
     {
         $strategy = new ContentHashNamingStrategy();

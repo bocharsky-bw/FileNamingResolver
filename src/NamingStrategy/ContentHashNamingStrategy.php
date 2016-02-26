@@ -18,7 +18,7 @@ class ContentHashNamingStrategy extends AbstractHashNamingStrategy
     {
         if (!$srcFileInfo->isFile()) {
             throw new \InvalidArgumentException(sprintf(
-                'The source file does not exist on %s specified path.',
+                'The source file does not exist on "%s" specified path.',
                 $srcFileInfo->toString()
             ));
         }
