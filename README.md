@@ -8,10 +8,11 @@ using various naming strategies.
   layer - looks closer to [Gaufrette][5], [symfony/filesystem][6] or [Flysystem][7]
   libraries.
 
-[![Travis Status](https://img.shields.io/travis/rust-lang/rust/master.svg?style=flat-square)](https://travis-ci.org/bocharsky-bw/FileNamingResolver)
+[![Travis Status](https://img.shields.io/travis/bocharsky-bw/FileNamingResolver/master.svg?style=flat-square)](https://travis-ci.org/bocharsky-bw/FileNamingResolver)
 [![HHVM Status](https://img.shields.io/hhvm/bocharsky-bw/file-naming-resolver/master.svg?style=flat-square)](http://hhvm.h4cc.de/package/bocharsky-bw/file-naming-resolver)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/bocharsky-bw/FileNamingResolver.svg?style=flat-square)](https://scrutinizer-ci.com/g/bocharsky-bw/FileNamingResolver/?branch=master)
-[![Software License](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](https://github.com/bocharsky-bw/FileNamingResolver/blob/master/LICENSE)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/bocharsky-bw/FileNamingResolver.svg?style=flat-square)](https://scrutinizer-ci.com/g/bocharsky-bw/FileNamingResolver/?branch=master)
+[![Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/bocharsky-bw/FileNamingResolver/blob/master/LICENSE)
 [![Latest Version](https://img.shields.io/packagist/v/bocharsky-bw/file-naming-resolver.svg?style=flat-square)](https://packagist.org/packages/bocharsky-bw/file-naming-resolver)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8/big.png)](https://insight.sensiolabs.com/projects/5a4cfa0f-22b1-4d76-adb3-373017f21ee8)
