@@ -11,7 +11,7 @@ class AggregateNamingStrategyTest extends \PHPUnit_Framework_TestCase
 {
     public function testProvideName()
     {
-        $strategies = [
+        $strategies = array(
             // 1st naming strategy
             new CallbackNamingStrategy(function(FileInfo $srcFileInfo) {
                 return $srcFileInfo
@@ -26,7 +26,7 @@ class AggregateNamingStrategyTest extends \PHPUnit_Framework_TestCase
                     ->changeBasename('file2')
                 ;
             }),
-        ];
+        );
         $srcFileInfo = new FileInfo('/dir/file.ext');
 
         $strategy = new AggregateNamingStrategy($strategies, AggregateNamingStrategy::MODE_FORWARD);
@@ -45,33 +45,33 @@ class AggregateNamingStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public function testProvideNameException()
     {
-        new AggregateNamingStrategy([
+        new AggregateNamingStrategy(array(
             new \stdClass(),
-        ]);
+        ));
     }
 
     public function testGetStrategies()
     {
-        $strategies = [
+        $strategies = array(
             new HashNamingStrategy(),
             new DatetimeNamingStrategy(),
-        ];
+        );
         $strategy = new AggregateNamingStrategy($strategies);
         $this->assertSame($strategies, $strategy->getStrategies());
     }
 
     public function testIsForwardMode()
     {
-        $strategy = new AggregateNamingStrategy([]);
+        $strategy = new AggregateNamingStrategy(array());
         $this->assertSame(true, $strategy->isForwardMode());
 
-        $strategy = new AggregateNamingStrategy([], AggregateNamingStrategy::MODE_FORWARD);
+        $strategy = new AggregateNamingStrategy(array(), AggregateNamingStrategy::MODE_FORWARD);
         $this->assertSame(true, $strategy->isForwardMode());
     }
 
     public function testIsReverseMode()
     {
-        $strategy = new AggregateNamingStrategy([], AggregateNamingStrategy::MODE_REVERSE);
+        $strategy = new AggregateNamingStrategy(array(), AggregateNamingStrategy::MODE_REVERSE);
         $this->assertSame(true, $strategy->isReverseMode());
     }
 }
