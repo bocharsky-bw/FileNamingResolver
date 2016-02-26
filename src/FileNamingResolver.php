@@ -34,7 +34,10 @@ class FileNamingResolver
         $dstFileInfo = $this->namingStrategy->provideName($srcFileInfo);
         if (!$dstFileInfo instanceof FileInfo) {
             throw new \RuntimeException(
-                sprintf('Selected naming strategy should return an instance of FileNamingResolver\FileInfo class')
+                sprintf(
+                    'Specified naming strategy should return an instance of "%s" class',
+                    '\FileNamingResolver\FileInfo'
+                )
             );
         }
 

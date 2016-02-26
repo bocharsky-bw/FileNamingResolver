@@ -39,6 +39,23 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \RuntimeException
+     */
+    public function testResolveNameException()
+    {
+        $mockedFileInfo = $this->createMockedFileInfo();
+        $mockedStrategy = $this->createMockedStrategy();
+        $mockedStrategy
+            ->expects($this->once())
+            ->method('provideName')
+            ->with($mockedFileInfo)
+            ->willReturn(__FILE__) // return string instead of FileInfo object to throw an RuntimeException in resolveName()
+        ;
+        $resolver = new FileNamingResolver($mockedStrategy);
+        $resolver->resolveName($mockedFileInfo);
+    }
+
+    /**
      * @return \PHPUnit_Framework_MockObject_MockObject|NamingStrategyInterface
      */
     private function createMockedStrategy()
