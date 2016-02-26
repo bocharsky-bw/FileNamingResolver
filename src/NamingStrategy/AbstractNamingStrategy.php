@@ -12,6 +12,6 @@ abstract class AbstractNamingStrategy implements NamingStrategyInterface
      */
     public static function generateUniqueString()
     {
-        return str_replace('.', '', microtime(true)) . uniqid();
+        return str_replace('.', '', microtime(true)).uniqid();
     }
 }
