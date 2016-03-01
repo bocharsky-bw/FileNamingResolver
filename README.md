@@ -29,6 +29,7 @@ using various naming strategies.
     * [ContentHashNamingStrategy](#contenthashnamingstrategy)
     * [DatetimeNamingStrategy](#datetimenamingstrategy)
     * [HashNamingStrategy](#hashnamingstrategy)
+* [Example](#example)
 * [Contribution](#contribution)
 
 ## Requirements
@@ -258,6 +259,81 @@ $hashStrategy = new HashNamingStrategy(
 $resolver = new FileNamingResolver($hashStrategy);
 $dstFileInfo = $resolver->resolveName($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
+```
+
+## Example
+
+There is a full working example how to upload files with a simple HTML form and
+built-in PHP functions using FileNamingResolver library.
+
+```php
+<?php
+
+require_once __DIR__.'/vendor/autoload.php';
+
+use FileNamingResolver\FileInfo;
+use FileNamingResolver\FileNamingResolver;
+use FileNamingResolver\NamingStrategy\HashNamingStrategy;
+
+// Define a few constants for convenience
+define('WEB_ROOT_DIR', __DIR__);
+define('UPLOAD_ROOT_DIR', WEB_ROOT_DIR.'/uploads');
+
+// Check whether form was submitted...
+if (isset($_POST['upload'])) {
+    // and file was attached - process file uploading
+    if ($_FILES['attachment']['tmp_name']) {
+        $strategy = new HashNamingStrategy(); // or create any other strategy you need here
+        $resolver = new FileNamingResolver($strategy); // use created naming strategy in resolver
+
+        $dstFileInfo = new FileInfo(UPLOAD_ROOT_DIR.'/'.$_FILES['attachment']['name']); // build destination pathname
+        $dstFileInfo = $resolver->resolveName($dstFileInfo); // apply specified naming strategy to the destination file
+
+        // Change extension based on mime type of uploaded file
+        // WARNING: Could be skipped if you want to base on original extension in $_FILES['attachment']['name'] but it could cause some security issues!
+        switch ($_FILES['attachment']['type']) {
+            case 'image/jpeg':
+                $extension = 'jpg';
+                break;
+
+            case 'image/png':
+                $extension = 'png';
+                break;
+
+            default:
+                $extension = 'bin';
+
+        }
+        // The FileInfo object is immutable so changeExtension() creates a new object.
+        // Don't forget to override previous variable
+        $dstFileInfo = $dstFileInfo->changeExtension($extension);
+
+        // create non-existent directories for the destination file
+        if (false === is_dir($dstFileInfo->getPath())) {
+            if (false === mkdir($dstFileInfo->getPath(), 0777, true)) {
+                throw new RuntimeException('Unable to create a directory for the destination file.');
+            }
+        }
+        // move uploaded file according to the destination pathname
+        if (false === move_uploaded_file($_FILES['attachment']['tmp_name'], $dstFileInfo->toString())) {
+            throw new RuntimeException('Unable to move an uploaded file to the specified directory.');
+        }
+
+        // Do whatever you want after successful uploading (i.e redirect user after success uploading)
+        echo sprintf(
+            'File "<b>%s</b>" successfully uploaded to the "<b>%s</b>" web directory! :)',
+            $dstFileInfo->getFilename(),
+            $dstFileInfo->getPathRelativeTo(WEB_ROOT_DIR) // get path relative to the web directory
+        );
+    }
+}
+
+?>
+
+<form action="" method="POST" enctype="multipart/form-data">
+    <input type="file" name="attachment">
+    <input type="submit" name="upload" value="Upload file">
+</form>
 ```
 
 ## Contribution
