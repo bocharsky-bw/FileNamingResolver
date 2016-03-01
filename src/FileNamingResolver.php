@@ -23,6 +23,8 @@ class FileNamingResolver
     }
 
     /**
+     * @TODO Rename to the resolve(): Actually, based on this class name it's understandable that resolve file naming
+     *
      * @param FileInfo $srcFileInfo The source FileInfo
      *
      * @return FileInfo The destination FileInfo
