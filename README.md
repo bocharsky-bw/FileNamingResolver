@@ -78,10 +78,10 @@ $srcFileInfo = new FileInfo(__DIR__.'/uploads/image.jpg');
 $hashStrategy = new HashNamingStrategy();
 
 // Create file naming resolver and pass naming strategy to it
-$resolver = new FileNamingResolver($hashStrategy);
+$namingResolver = new FileNamingResolver($hashStrategy);
 
 // Resolve new name using specified naming strategy
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4e/d3/a51a07c8e89ff8f228075b7fc76b.jpg
 
 // Use rename() / move_uploaded_file() built-in functions, Gaufrette or any other filesystem
@@ -134,8 +134,8 @@ $strategies = [
 ];
 $aggregateStrategy = new AggregateNamingStrategy($strategies);
 
-$resolver = new FileNamingResolver($aggregateStrategy);
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$namingResolver = new FileNamingResolver($aggregateStrategy);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/2015/12/9c/98/87cbf44f53c9f6fa08f44ce705c8.jpg
 ```
 
@@ -145,8 +145,8 @@ constructor of `AggregateNamingStrategy` class:
 ```php
 $aggregateStrategy = new AggregateNamingStrategy($strategies, AggregateNamingStrategy::MODE_REVERSE);
 
-$resolver = new FileNamingResolver($aggregateStrategy);
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$namingResolver = new FileNamingResolver($aggregateStrategy);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/a0/cb/2015/12/11-23-35-039900.jpg
 ```
 
@@ -174,8 +174,8 @@ $callbackStrategy = new CallbackNamingStrategy(function (FileInfo $srcFileInfo) 
     return $dstFileInfo;
 });
 
-$resolver = new FileNamingResolver($callbackStrategy);
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$namingResolver = new FileNamingResolver($callbackStrategy);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/products/1450004778-566d512a32d2c.jpg
 ```
 
@@ -200,8 +200,8 @@ $contentHashStrategy = new ContentHashNamingStrategy(
     3
 );
 
-$resolver = new FileNamingResolver($contentHashStrategy);
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$namingResolver = new FileNamingResolver($contentHashStrategy);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
 ```
 
@@ -230,8 +230,8 @@ $datetimeStrategy = new DatetimeNamingStrategy(
     DateTimeNamingStrategy::FORMAT_FILE_TIMESTAMP_MICROSECONDS // 'U-u'
 );
 
-$resolver = new FileNamingResolver($datetimeStrategy);
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$namingResolver = new FileNamingResolver($datetimeStrategy);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/2015/12/13/1450004392-907500.jpg
 ```
 
@@ -256,8 +256,8 @@ $hashStrategy = new HashNamingStrategy(
     3
 );
 
-$resolver = new FileNamingResolver($hashStrategy);
-$dstFileInfo = $resolver->resolveName($srcFileInfo);
+$namingResolver = new FileNamingResolver($hashStrategy);
+$dstFileInfo = $namingResolver->resolve($srcFileInfo);
 echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
 ```
 
@@ -284,10 +284,10 @@ if (isset($_POST['upload'])) {
     // and file was attached - process file uploading
     if ($_FILES['attachment']['tmp_name']) {
         $strategy = new HashNamingStrategy(); // or create any other strategy you need here
-        $resolver = new FileNamingResolver($strategy); // use created naming strategy in resolver
+        $namingResolver = new FileNamingResolver($strategy); // use created naming strategy in resolver
 
         $dstFileInfo = new FileInfo(UPLOAD_ROOT_DIR.'/'.$_FILES['attachment']['name']); // build destination pathname
-        $dstFileInfo = $resolver->resolveName($dstFileInfo); // apply specified naming strategy to the destination file
+        $dstFileInfo = $namingResolver->resolve($dstFileInfo); // apply specified naming strategy to the destination file
 
         // Change extension based on mime type of uploaded file
         // WARNING: Could be skipped if you want to base on original extension in $_FILES['attachment']['name'] but it could cause some security issues!

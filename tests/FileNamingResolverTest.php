@@ -22,7 +22,7 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($anotherMockedStrategy, $resolver->getNamingStrategy());
     }
 
-    public function testResolveName()
+    public function testResolve()
     {
         $mockedFileInfo = $this->createMockedFileInfo();
         $mockedStrategy = $this->createMockedStrategy();
@@ -33,7 +33,7 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new FileInfo(__FILE__))
         ;
         $resolver = new FileNamingResolver($mockedStrategy);
-        $dstFileInfo = $resolver->resolveName($mockedFileInfo);
+        $dstFileInfo = $resolver->resolve($mockedFileInfo);
 
         $this->assertInstanceOf('FileNamingResolver\FileInfo', $dstFileInfo);
     }
@@ -41,7 +41,7 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testResolveNameException()
+    public function testResolveException()
     {
         $mockedFileInfo = $this->createMockedFileInfo();
         $mockedStrategy = $this->createMockedStrategy();
@@ -52,7 +52,7 @@ class FileNamingResolverTest extends \PHPUnit_Framework_TestCase
             ->willReturn(__FILE__) // return string instead of FileInfo object to throw an RuntimeException in resolveName()
         ;
         $resolver = new FileNamingResolver($mockedStrategy);
-        $resolver->resolveName($mockedFileInfo);
+        $resolver->resolve($mockedFileInfo);
     }
 
     /**
