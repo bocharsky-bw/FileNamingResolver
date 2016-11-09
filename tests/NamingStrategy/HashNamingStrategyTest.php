@@ -70,8 +70,10 @@ class HashNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $dstFileInfo = $strategy->provideName($srcFileInfo);
 
         $hashFilename = str_replace(FileInfo::SEPARATOR_DIRECTORY, '', $dstFileInfo->getPathnameRelativeTo(__DIR__));
-        $this->assertNotEquals($hashFilename, $dstFileInfo->getFilename());
-        $this->assertStringEndsWith($dstFileInfo->getFilename(), $hashFilename);
+        $hashBasename = substr($hashFilename, 0, -4); // remove extension
+
+        $this->assertNotEquals($hashBasename, $dstFileInfo->getBasename());
+        $this->assertStringEndsWith($dstFileInfo->getBasename(), $hashBasename);
     }
 
     public function testFullNameIsKept()
@@ -81,7 +83,9 @@ class HashNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $dstFileInfo = $strategy->provideName($srcFileInfo);
 
         $hashPathname = str_replace(FileInfo::SEPARATOR_DIRECTORY, '', $dstFileInfo->getPathnameRelativeTo(__DIR__));
-        $hashFilename = substr($hashPathname, 4); // remove prefix parts
-        $this->assertEquals($hashFilename, $dstFileInfo->getFilename());
+        $hashFilename = substr($hashPathname, 4); // remove path prefix parts
+        $hashBasename = substr($hashFilename, 0, -4); // remove extension
+
+        $this->assertEquals($hashBasename, $dstFileInfo->getBasename());
     }
 }
