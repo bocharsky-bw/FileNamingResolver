@@ -28,15 +28,22 @@ abstract class AbstractHashNamingStrategy extends AbstractNamingStrategy
     protected $partLength;
 
     /**
+     * @var bool
+     */
+    protected $shouldFullNameBeKept;
+
+    /**
      * @param string $algorithm
      * @param int $partCount
      * @param int $partLength
+     * @param bool $shouldFullNameBeKept
      */
-    public function __construct($algorithm = self::ALGORITHM_MD5, $partCount = 2, $partLength = 2)
+    public function __construct($algorithm = self::ALGORITHM_MD5, $partCount = 2, $partLength = 2, $shouldFullNameBeKept = false)
     {
         $this->algorithm = (string)$algorithm;
         $this->partCount = (int)$partCount;
         $this->partLength = (int)$partLength;
+        $this->shouldFullNameBeKept = (bool)$shouldFullNameBeKept;
     }
 
     /**
@@ -51,7 +58,11 @@ abstract class AbstractHashNamingStrategy extends AbstractNamingStrategy
         for ($i = 0; $i < $this->partCount; $i++) {
             $pathSuffixParts[] = substr($hash, $i * $this->partLength, $this->partLength);
         }
-        $name = substr($hash, $i * $this->partLength);
+        if ($this->shouldFullNameBeKept) {
+            $name = $hash;
+        } else {
+            $name = substr($hash, $i * $this->partLength);
+        }
         $pathSuffix = implode(FileInfo::SEPARATOR_DIRECTORY, $pathSuffixParts);
         $dstFileInfo = $srcFileInfo
             ->changeBasename($name)
@@ -83,5 +94,13 @@ abstract class AbstractHashNamingStrategy extends AbstractNamingStrategy
     public function getPartLength()
     {
         return $this->partLength;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function shouldFullNameBeKept()
+    {
+        return $this->shouldFullNameBeKept;
     }
 }
