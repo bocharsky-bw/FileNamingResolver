@@ -197,12 +197,14 @@ $contentHashStrategy = new ContentHashNamingStrategy(
     // Count of parts for explode, by default: 2
     3,
     // Length of each exploded part, by default: 2
-    3
+    3,
+    // Keep full filename for easy searching
+    true
 );
 
 $namingResolver = new FileNamingResolver($contentHashStrategy);
 $dstFileInfo = $namingResolver->resolve($srcFileInfo);
-echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/4ed3a51a07c8e89ff8f228075b7fc76b.jpg
 ```
 
 > **NOTE:** Be sure that source file *really* exist before using `ContentHashNamingStrategy`
@@ -253,12 +255,14 @@ $hashStrategy = new HashNamingStrategy(
     // Count of parts for explode, by default: 2
     3,
     // Length of each exploded part, by default: 2
-    3
+    3,
+    // Keep full filename for easy searching
+    true
 );
 
 $namingResolver = new FileNamingResolver($hashStrategy);
 $dstFileInfo = $namingResolver->resolve($srcFileInfo);
-echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/7c8e89ff8f228075b7fc76b.jpg
+echo $dstFileInfo->toString(); // /var/www/html/web/uploads/4ed/3a5/1a0/4ed3a51a07c8e89ff8f228075b7fc76b.jpg
 ```
 
 ## Example
