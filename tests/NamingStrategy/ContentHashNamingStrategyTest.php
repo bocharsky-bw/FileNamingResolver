@@ -18,6 +18,8 @@ class ContentHashNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $srcFileInfo = new FileInfo(__FILE__);
         $dstFileInfo = $strategy->provideName($srcFileInfo);
         $this->assertInstanceOf('FileNamingResolver\FileInfo', $dstFileInfo);
+        $this->assertStringStartsWith($srcFileInfo->getPath(), $dstFileInfo->toString());
+        $this->assertStringEndsNotWith($srcFileInfo->getFilename(), $dstFileInfo->toString());
 
         // assert equals hashes of the same source file
         $srcFileInfo2 = new FileInfo(__FILE__);
@@ -60,5 +62,40 @@ class ContentHashNamingStrategyTest extends \PHPUnit_Framework_TestCase
 
         $strategy = new ContentHashNamingStrategy(ContentHashNamingStrategy::ALGORITHM_MD5, 2, 3);
         $this->assertSame(3, $strategy->getPartLength());
+    }
+
+    public function testShouldFullNameBeKept()
+    {
+        $strategy = new ContentHashNamingStrategy();
+        $this->assertSame(false, $strategy->shouldFullFilenameBeKept());
+
+        $strategy = new ContentHashNamingStrategy(ContentHashNamingStrategy::ALGORITHM_MD5, 2, 3, true);
+        $this->assertSame(true, $strategy->shouldFullFilenameBeKept());
+    }
+
+    public function testFullNameIsNotKept()
+    {
+        $strategy = new ContentHashNamingStrategy();
+        $srcFileInfo = new FileInfo(__FILE__);
+        $dstFileInfo = $strategy->provideName($srcFileInfo);
+
+        $hashFilename = str_replace(FileInfo::SEPARATOR_DIRECTORY, '', $dstFileInfo->getPathnameRelativeTo(__DIR__));
+        $hashBasename = substr($hashFilename, 0, -4); // remove extension
+
+        $this->assertNotEquals($hashBasename, $dstFileInfo->getBasename());
+        $this->assertStringEndsWith($dstFileInfo->getBasename(), $hashBasename);
+    }
+
+    public function testFullNameIsKept()
+    {
+        $strategy = new ContentHashNamingStrategy(ContentHashNamingStrategy::ALGORITHM_MD5, 2, 2, true);
+        $srcFileInfo = new FileInfo(__FILE__);
+        $dstFileInfo = $strategy->provideName($srcFileInfo);
+
+        $hashPathname = str_replace(FileInfo::SEPARATOR_DIRECTORY, '', $dstFileInfo->getPathnameRelativeTo(__DIR__));
+        $hashFilename = substr($hashPathname, 4); // remove path prefix parts
+        $hashBasename = substr($hashFilename, 0, -4); // remove extension
+
+        $this->assertEquals($hashBasename, $dstFileInfo->getBasename());
     }
 }

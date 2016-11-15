@@ -53,4 +53,39 @@ class HashNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $strategy = new HashNamingStrategy(HashNamingStrategy::ALGORITHM_MD5, 2, 3);
         $this->assertSame(3, $strategy->getPartLength());
     }
+
+    public function testShouldFullNameBeKept()
+    {
+        $strategy = new HashNamingStrategy();
+        $this->assertSame(false, $strategy->shouldFullFilenameBeKept());
+
+        $strategy = new HashNamingStrategy(HashNamingStrategy::ALGORITHM_MD5, 2, 3, true);
+        $this->assertSame(true, $strategy->shouldFullFilenameBeKept());
+    }
+
+    public function testFullNameIsNotKept()
+    {
+        $strategy = new HashNamingStrategy();
+        $srcFileInfo = new FileInfo(__FILE__);
+        $dstFileInfo = $strategy->provideName($srcFileInfo);
+
+        $hashFilename = str_replace(FileInfo::SEPARATOR_DIRECTORY, '', $dstFileInfo->getPathnameRelativeTo(__DIR__));
+        $hashBasename = substr($hashFilename, 0, -4); // remove extension
+
+        $this->assertNotEquals($hashBasename, $dstFileInfo->getBasename());
+        $this->assertStringEndsWith($dstFileInfo->getBasename(), $hashBasename);
+    }
+
+    public function testFullNameIsKept()
+    {
+        $strategy = new HashNamingStrategy(HashNamingStrategy::ALGORITHM_MD5, 2, 2, true);
+        $srcFileInfo = new FileInfo(__FILE__);
+        $dstFileInfo = $strategy->provideName($srcFileInfo);
+
+        $hashPathname = str_replace(FileInfo::SEPARATOR_DIRECTORY, '', $dstFileInfo->getPathnameRelativeTo(__DIR__));
+        $hashFilename = substr($hashPathname, 4); // remove path prefix parts
+        $hashBasename = substr($hashFilename, 0, -4); // remove extension
+
+        $this->assertEquals($hashBasename, $dstFileInfo->getBasename());
+    }
 }
