@@ -67,10 +67,10 @@ class ContentHashNamingStrategyTest extends \PHPUnit_Framework_TestCase
     public function testShouldFullNameBeKept()
     {
         $strategy = new ContentHashNamingStrategy();
-        $this->assertSame(false, $strategy->shouldFullNameBeKept());
+        $this->assertSame(false, $strategy->shouldFullFilenameBeKept());
 
         $strategy = new ContentHashNamingStrategy(ContentHashNamingStrategy::ALGORITHM_MD5, 2, 3, true);
-        $this->assertSame(true, $strategy->shouldFullNameBeKept());
+        $this->assertSame(true, $strategy->shouldFullFilenameBeKept());
     }
 
     public function testFullNameIsNotKept()
